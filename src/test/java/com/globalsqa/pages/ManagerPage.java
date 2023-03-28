@@ -22,10 +22,10 @@ public class ManagerPage {
     public void clickAddCustomerBtn() {
         addCustomerButton.click();
     }
+
     public void clickListCustomerBtn() {
         listCustomersBtn.click();
     }
-
 
 
 }

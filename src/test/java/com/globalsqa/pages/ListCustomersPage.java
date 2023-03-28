@@ -19,8 +19,22 @@ public class ListCustomersPage {
     @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody")
     private WebElement tableCustomer;
 
+    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody")
+    private WebElement accountNumber;
+
+    @FindBy(xpath ="/html/body/div/div/div[2]/div/div[2]/div/form/div/div/input")
+    private WebElement searchField;
+
+    public void inputSearchParam(String searchParam) {
+        searchField.sendKeys(searchParam);
+    }
+
     public WebElement getTableCustomer() {
         return tableCustomer;
+    }
+
+    public WebElement getFirstNameColumn() {
+        return firstNameColumn;
     }
 
     public void clickSort() {
