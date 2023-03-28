@@ -25,6 +25,7 @@ public class AddCustomerPage {
     @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/form/button")
     private WebElement addBtn;
 
+
     public void inputFirstName(String firstName) {
         firstNameField.sendKeys(firstName);
     }
@@ -39,5 +40,6 @@ public class AddCustomerPage {
 
     public void clickAddBtn() {addBtn.click();
     }
+
 
 }
