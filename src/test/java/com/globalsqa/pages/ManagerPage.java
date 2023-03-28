@@ -20,4 +20,6 @@ public class ManagerPage {
         addCustomerButton.click();
     }
 
+
+
 }
