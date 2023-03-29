@@ -5,10 +5,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class ManagerPage {
 
-    @FindBy(id = "/html/body/div/div/div[2]/div/div[1]/button[1]")
+    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[1]/button[1]")
     private WebElement addCustomerButton;
 
-    @FindBy(id = "/html/body/div/div/div[2]/div/div[1]/button[3]")
+    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[1]/button[3]")
     private WebElement listCustomersBtn;
 
     public void clickAddCustomerBtn() {

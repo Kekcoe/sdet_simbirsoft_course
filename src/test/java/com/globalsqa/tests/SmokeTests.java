@@ -10,40 +10,31 @@ import com.globalsqa.utils.WorkWebDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.openqa.selenium.*;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.CONCURRENT)
 public class SmokeTests {
 
     static final Logger logger = LoggerFactory.getLogger(SmokeTests.class);
     private WebDriver webDriver;
     private PageManager pages;
 
-
     @BeforeAll
     static void setupAll() {
         logger.info("start setupAll method");
-      WebDriverManager.chromedriver().setup();
-
+        WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         webDriver = WorkWebDriver.getChromeDriver();
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         pages = new PageManager(webDriver);
-
     }
 
     @AfterEach
@@ -75,36 +66,39 @@ public class SmokeTests {
         logger.info("finish create customer test");
     }
 
-//    @Test
-//    @Description("Case 2: Сортировка клиентов по имени (FirstName)")
-//    void sortCustomersTest() {
-//        logger.info("start sortCustomersTest");
-//        webDriver.get(ConfigurationProperties.getProperty("managerpage"));
-//        managerPage.clickListCustomerBtn();
-//
-//        WebElement tableCustomer = listCustomersPage.getTableCustomer();
-//        List<String> expectedList = getListFromTable(tableCustomer);
-//        Collections.sort(expectedList);
-//
-//        List<String> actualList = getListFromTable(tableCustomer);
-//        while (!actualList.equals(expectedList)) {
-//            listCustomersPage.clickSort();
-//            actualList = getListFromTable(tableCustomer);
-//        }
-//
-//        Assertions.assertEquals(expectedList, actualList, "Таблица не отсортирована");
-//        logger.info("finish sortCustomersTest");
-//    }
+    @Test
+    @Description("Case 2: Сортировка клиентов по имени (FirstName)")
+    void sortCustomersTest() {
+        logger.info("start sortCustomersTest");
+        webDriver.get(ConfigurationProperties.getProperty("managerpage"));
+
+        ManagerPage managerPage = pages.getManagerPage();
+        managerPage.clickListCustomerBtn();
+        webDriver.get(ConfigurationProperties.getProperty("listcustomerspage"));
+        ListCustomersPage listCustomersPage = pages.getListCustomersPage();
+        WebElement tableCustomer = listCustomersPage.getTableCustomer();
+        List<String> expectedList = getListFromTable(tableCustomer);
+        Collections.sort(expectedList);
+
+        List<String> actualList = getListFromTable(tableCustomer);
+        while (!actualList.equals(expectedList)) {
+            listCustomersPage.clickSort();
+            actualList = getListFromTable(tableCustomer);
+        }
+
+        Assertions.assertEquals(expectedList, actualList, "Таблица не отсортирована");
+        logger.info("finish sortCustomersTest");
+    }
 
     @Test
     @Description("Case 3: Поиск клиента")
-    void findCustomerTest(){
+    void findCustomerTest() {
         logger.info("start findCustomerTest");
         ListCustomersPage listCustomersPage = pages.getListCustomersPage();
         webDriver.get(ConfigurationProperties.getProperty("listcustomerspage"));
 
         String expectedFirstName = ConfigurationProperties.getProperty("searchFirstName");
-        String expectedAccountNumber= ConfigurationProperties.getProperty("accountnumber");
+        String expectedAccountNumber = ConfigurationProperties.getProperty("accountnumber");
         listCustomersPage.inputSearchParam(expectedFirstName);
 
         WebElement tableCustomer = listCustomersPage.getTableCustomer();
