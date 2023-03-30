@@ -9,6 +9,8 @@ import com.globalsqa.utils.ConfigurationProperties;
 import com.globalsqa.utils.WorkWebDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.*;
 
+@Epic("Test globalsqa")
 public class SmokeTests {
 
     static final Logger logger = LoggerFactory.getLogger(SmokeTests.class);
@@ -31,6 +34,7 @@ public class SmokeTests {
 
     @BeforeEach
     public void setUp() {
+        logger.info("start setupUp method");
         webDriver = WorkWebDriver.getChromeDriver();
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -44,6 +48,7 @@ public class SmokeTests {
     }
 
     @Test
+    @Step("Creating of customers")
     @Description("Case 1: Создание клиента (Customer)")
     void createCustomerTest() {
         logger.info("start create customer test");
@@ -67,6 +72,7 @@ public class SmokeTests {
     }
 
     @Test
+    @Step("Sorting customers")
     @Description("Case 2: Сортировка клиентов по имени (FirstName)")
     void sortCustomersTest() {
         logger.info("start sortCustomersTest");
@@ -91,6 +97,7 @@ public class SmokeTests {
     }
 
     @Test
+    @Step("Search of customers")
     @Description("Case 3: Поиск клиента")
     void findCustomerTest() {
         logger.info("start findCustomerTest");
@@ -120,6 +127,4 @@ public class SmokeTests {
         System.out.println("Actual list" + textsList);
         return textsList;
     }
-
-
 }

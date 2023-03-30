@@ -19,5 +19,4 @@ public class ManagerPage {
         listCustomersBtn.click();
     }
 
-
 }

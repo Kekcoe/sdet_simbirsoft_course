@@ -1,11 +1,9 @@
 package com.globalsqa.utils;
 
-import com.globalsqa.tests.SmokeTests;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class WorkWebDriver {
 
@@ -19,5 +17,4 @@ public class WorkWebDriver {
         logger.info("return new ChromeDriver");
         return  new ChromeDriver(option);
     }
-
 }
