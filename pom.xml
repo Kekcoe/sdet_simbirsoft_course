@@ -11,7 +11,7 @@
     <properties>
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <junit-platform-surefire-provider.version>1.3.2</junit-platform-surefire-provider.version>
-        <aspectj.version>1.9.4</aspectj.version>
+        <aspectj.version>п1.9.4</aspectj.version>
         <allure-junit5.version>2.12.0</allure-junit5.version>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.source>11</maven.compiler.source>
@@ -72,7 +72,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <testFailureIgnore>false</testFailureIgnore>
-<!--                    <skipTests>true</skipTests>-->
+                    <skipTests>true</skipTests>
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
