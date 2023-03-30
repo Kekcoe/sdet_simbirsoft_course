@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} tests https://www.globalsqa.com/angularJs-protract
 on:
   push:
     branches:
-      - main
+      - feature/feature
 
 jobs:
   build:
