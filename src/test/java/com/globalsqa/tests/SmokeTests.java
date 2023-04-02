@@ -68,13 +68,13 @@ public class SmokeTests {
         managerPage.clickListCustomerBtn();
 
         WebElement tableCustomer = listCustomersPage.getTableCustomer();
-        List<String> expectedList = getListFromTable(tableCustomer);
+        List<String> expectedList = listCustomersPage.getListFromTable(tableCustomer);
         Collections.sort(expectedList);
 
-        List<String> actualList = getListFromTable(tableCustomer);
+        List<String> actualList = listCustomersPage.getListFromTable(tableCustomer);
             while (!actualList.equals(expectedList)) {
                 listCustomersPage.clickSort();
-                actualList = getListFromTable(tableCustomer);
+                actualList = listCustomersPage.getListFromTable(tableCustomer);
             }
 
         Assertions.assertEquals(expectedList, actualList, "Таблица не отсортирована");
@@ -92,8 +92,8 @@ public class SmokeTests {
         listCustomersPage.inputSearchParam(expectedFirstName);
 
         WebElement tableCustomer = listCustomersPage.getTableCustomer();
-        List<WebElement> rowsTableCustomer = tableCustomer.findElements(By.tagName("tr"));
-        List<WebElement> cols = rowsTableCustomer.get(0).findElements(By.tagName("td"));
+        List<WebElement> rowsTableCustomer = listCustomersPage.getRowsTableCustomer(tableCustomer);
+        List<WebElement> cols = listCustomersPage.getColumnsTableByIndex(rowsTableCustomer, 0);
         String actualFirstName = cols.get(0).getText();
         String actualAccountNumber = cols.get(3).getText();
 
@@ -101,12 +101,5 @@ public class SmokeTests {
         Assertions.assertEquals(expectedFirstName, actualFirstName, "Строка не найдена");
         Assertions.assertEquals(expectedAccountNumber, actualAccountNumber, "Account number не найден для " +
                 "искомого параметра FirstName");
-    }
-
-    private List<String> getListFromTable(WebElement tbl) {
-        List<WebElement> elements = tbl.findElements(By.tagName("tr"));
-        List<String> textsList = new ArrayList<>();
-        elements.stream().map(WebElement::getText).forEach(textsList::add);
-        return textsList;
     }
 }
