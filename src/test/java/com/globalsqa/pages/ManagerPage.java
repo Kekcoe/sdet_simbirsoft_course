@@ -5,10 +5,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class ManagerPage {
 
-    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[1]/button[1]")
+    @FindBy(xpath = "//button[@ng-click='addCust()']")
     private WebElement addCustomerButton;
 
-    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[1]/button[3]")
+    @FindBy(xpath = "//button[@ng-click='showCust()']")
     private WebElement listCustomersBtn;
 
     public void clickAddCustomerBtn() {
@@ -18,5 +18,4 @@ public class ManagerPage {
     public void clickListCustomerBtn() {
         listCustomersBtn.click();
     }
-
 }

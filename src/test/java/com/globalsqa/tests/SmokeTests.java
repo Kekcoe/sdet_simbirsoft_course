@@ -1,6 +1,5 @@
 package com.globalsqa.tests;
 
-
 import com.globalsqa.pages.AddCustomerPage;
 import com.globalsqa.pages.ListCustomersPage;
 import com.globalsqa.pages.ManagerPage;
@@ -13,28 +12,21 @@ import io.qameta.allure.Epic;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.Duration;
 import java.util.*;
 
 @Epic("Test globalsqa")
 public class SmokeTests {
-
-    static final Logger logger = LoggerFactory.getLogger(SmokeTests.class);
     private WebDriver webDriver;
     private PageManager pages;
 
     @BeforeAll
     static void setupAll() {
-        logger.info("start setupAll method");
         WebDriverManager.chromedriver().setup();
     }
 
     @BeforeEach
     public void setUp() {
-        logger.info("start setupUp method");
         webDriver = WorkWebDriver.getChromeDriver();
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -43,7 +35,6 @@ public class SmokeTests {
 
     @AfterEach
     public void cleanUp() {
-        logger.info("cleanUp");
         webDriver.quit();
     }
 
@@ -51,7 +42,6 @@ public class SmokeTests {
     @Step("Creating of customers")
     @Description("Case 1: Создание клиента (Customer)")
     void createCustomerTest() {
-        logger.info("start create customer test");
         ManagerPage managerPage = pages.getManagerPage();
         AddCustomerPage addCustomerPage = pages.getAddCustomerPage();
         webDriver.get(ConfigurationProperties.getProperty("managerpage"));
@@ -63,19 +53,16 @@ public class SmokeTests {
         addCustomerPage.clickAddBtn();
 
         Alert alert = webDriver.switchTo().alert();
-        //todo use regular expression
         String expected = "Customer added successfully with customer id :6";
         String actual = alert.getText();
         alert.accept();
         Assertions.assertEquals(expected, actual, "Текст после сохранения customer не верный");
-        logger.info("finish create customer test");
     }
 
     @Test
     @Step("Sorting customers")
     @Description("Case 2: Сортировка клиентов по имени (FirstName)")
     void sortCustomersTest() {
-        logger.info("start sortCustomersTest");
         webDriver.get(ConfigurationProperties.getProperty("managerpage"));
 
         ManagerPage managerPage = pages.getManagerPage();
@@ -87,20 +74,18 @@ public class SmokeTests {
         Collections.sort(expectedList);
 
         List<String> actualList = getListFromTable(tableCustomer);
-        while (!actualList.equals(expectedList)) {
-            listCustomersPage.clickSort();
-            actualList = getListFromTable(tableCustomer);
-        }
+            while (!actualList.equals(expectedList)) {
+                listCustomersPage.clickSort();
+                actualList = getListFromTable(tableCustomer);
+            }
 
         Assertions.assertEquals(expectedList, actualList, "Таблица не отсортирована");
-        logger.info("finish sortCustomersTest");
     }
 
     @Test
     @Step("Search of customers")
     @Description("Case 3: Поиск клиента")
     void findCustomerTest() {
-        logger.info("start findCustomerTest");
         ListCustomersPage listCustomersPage = pages.getListCustomersPage();
         webDriver.get(ConfigurationProperties.getProperty("listcustomerspage"));
 
@@ -124,7 +109,6 @@ public class SmokeTests {
         List<WebElement> elements = tbl.findElements(By.tagName("tr"));
         List<String> textsList = new ArrayList<>();
         elements.stream().map(WebElement::getText).forEach(textsList::add);
-        System.out.println("Actual list" + textsList);
         return textsList;
     }
 }

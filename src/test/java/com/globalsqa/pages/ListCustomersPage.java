@@ -6,16 +6,13 @@ import org.openqa.selenium.support.FindBy;
 
 public class ListCustomersPage {
 
-    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/table/thead/tr/td[1]/a")
+    @FindBy(xpath = "//a[contains(text(), 'First Name')]")
     private WebElement firstNameColumn;
 
-    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody")
+    @FindBy(css = "table.table-bordered.table-striped tbody")
     private WebElement tableCustomer;
 
-    @FindBy(xpath = "/html/body/div/div/div[2]/div/div[2]/div/div/table/tbody")
-    private WebElement accountNumber;
-
-    @FindBy(xpath ="/html/body/div/div/div[2]/div/div[2]/div/form/div/div/input")
+    @FindBy(xpath = "//input[@placeholder='Search Customer']")
     private WebElement searchField;
 
     public void inputSearchParam(String searchParam) {
