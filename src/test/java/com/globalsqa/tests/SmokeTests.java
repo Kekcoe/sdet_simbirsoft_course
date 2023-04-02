@@ -3,7 +3,6 @@ package com.globalsqa.tests;
 import com.globalsqa.pages.AddCustomerPage;
 import com.globalsqa.pages.ListCustomersPage;
 import com.globalsqa.pages.ManagerPage;
-import com.globalsqa.pages.PageManager;
 import com.globalsqa.utils.ConfigurationProperties;
 import com.globalsqa.utils.WorkWebDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -18,7 +17,6 @@ import java.util.*;
 @Epic("Test globalsqa")
 public class SmokeTests {
     private WebDriver webDriver;
-    private PageManager pages;
 
     @BeforeAll
     static void setupAll() {
@@ -30,7 +28,6 @@ public class SmokeTests {
         webDriver = WorkWebDriver.getChromeDriver();
         webDriver.manage().window().maximize();
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        pages = new PageManager(webDriver);
     }
 
     @AfterEach
@@ -42,11 +39,12 @@ public class SmokeTests {
     @Step("Creating of customers")
     @Description("Case 1: Создание клиента (Customer)")
     void createCustomerTest() {
-        ManagerPage managerPage = pages.getManagerPage();
-        AddCustomerPage addCustomerPage = pages.getAddCustomerPage();
-        webDriver.get(ConfigurationProperties.getProperty("managerpage"));
-        managerPage.clickAddCustomerBtn();
+        ManagerPage managerPage = new ManagerPage(webDriver);
+        AddCustomerPage addCustomerPage = new AddCustomerPage(webDriver);
         webDriver.get(ConfigurationProperties.getProperty("adcustomerspage"));
+        webDriver.get(ConfigurationProperties.getProperty("managerpage"));
+
+        managerPage.clickAddCustomerBtn();
         addCustomerPage.inputFirstName(ConfigurationProperties.getProperty("firstname"));
         addCustomerPage.inputLastName(ConfigurationProperties.getProperty("lastname"));
         addCustomerPage.inputPostCode(ConfigurationProperties.getProperty("postcode"));
@@ -63,12 +61,12 @@ public class SmokeTests {
     @Step("Sorting customers")
     @Description("Case 2: Сортировка клиентов по имени (FirstName)")
     void sortCustomersTest() {
+        ManagerPage managerPage = new ManagerPage(webDriver);
+        ListCustomersPage listCustomersPage = new ListCustomersPage(webDriver);
         webDriver.get(ConfigurationProperties.getProperty("managerpage"));
-
-        ManagerPage managerPage = pages.getManagerPage();
-        managerPage.clickListCustomerBtn();
         webDriver.get(ConfigurationProperties.getProperty("listcustomerspage"));
-        ListCustomersPage listCustomersPage = pages.getListCustomersPage();
+        managerPage.clickListCustomerBtn();
+
         WebElement tableCustomer = listCustomersPage.getTableCustomer();
         List<String> expectedList = getListFromTable(tableCustomer);
         Collections.sort(expectedList);
@@ -86,7 +84,7 @@ public class SmokeTests {
     @Step("Search of customers")
     @Description("Case 3: Поиск клиента")
     void findCustomerTest() {
-        ListCustomersPage listCustomersPage = pages.getListCustomersPage();
+        ListCustomersPage listCustomersPage = new ListCustomersPage(webDriver);
         webDriver.get(ConfigurationProperties.getProperty("listcustomerspage"));
 
         String expectedFirstName = ConfigurationProperties.getProperty("searchFirstName");
